@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Equipo</title>
+</head>
+<body>
+    <h1>Detalle de Equipo</h1>
+    <h2>{{ equipo.nombre }}</h2>
+    <p><strong>Ciudad:</strong> {{ equipo.ciudad }}</p>
+    <p><strong>Fecha de fundación:</strong> {{ equipo.fundacion }}</p>
+    <h3>Jugadores:</h3>
+    <ul>
+    {% for jugador in equipo.jugadores.all %}
+        <li>{{ jugador.nombre }} - {{ jugador.posicion }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

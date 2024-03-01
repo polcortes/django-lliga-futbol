@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Partidos</title>
+</head>
+<body>
+    <h1>Lista de Partidos</h1>
+    <ul>
+    {% for partido in partidos %}
+        <li>
+            <strong>{{ partido.equipo_local }}</strong> vs <strong>{{ partido.equipo_visitante }}</strong> - {{ partido.fecha }}
+            <br>
+            Resultado: {{ partido.resultado_local }} - {{ partido.resultado_visitante }}
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
