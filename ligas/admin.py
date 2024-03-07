@@ -25,19 +25,25 @@ class EventInline(admin.TabularInline):
 	ordering = ("temps",)
 	def formfield_for_foreignkey(self, db_field: Any, request: HttpRequest, **kwargs: Any) -> ModelChoiceField:
 		if db_field.name == "equip":
-			partit_id = request.resolver_match.kwargs["object_id"]
-			partit = Partido.objects.get(id=partit_id)
-			equips_ids = [partit.local.id,partit.visitant.id]
-			qs = Jugador.objects.filter(equip__id__in=equips_ids)
-			kwargs["queryset"] = qs
+			try:
+				partit_id = request.resolver_match.kwargs["object_id"]
+				partit = Partido.objects.get(id=partit_id)
+				equips_ids = [partit.local.id,partit.visitant.id]
+				qs = Jugador.objects.filter(equip__id__in=equips_ids)
+				kwargs["queryset"] = qs
+			except:
+				kwargs["queryset"] = Equipo.objects.none()
 
 		elif db_field.name == "jugador":
-			partit_id = request.resolver_match.kwargs["object_id"]
-			partit = Partido.objects.get(id=partit_id)
-			jugadors_local = [j.id for j in partit.local.jugador_set.all()]
-			jugadors_visitant = [j.id for j in partit.visitant.jugador_set.all()]
-			jugadors = jugadors_local + jugadors_visitant
-			kwargs["queryset"] = Jugador.objects.filter(id__in=jugadors)
+			try:
+				partit_id = request.resolver_match.kwargs["object_id"]
+				partit = Partido.objects.get(id=partit_id)
+				jugadors_local = [j.id for j in partit.local.jugador_set.all()]
+				jugadors_visitant = [j.id for j in partit.visitant.jugador_set.all()]
+				jugadors = jugadors_local + jugadors_visitant
+				kwargs["queryset"] = Jugador.objects.filter(id__in=jugadors)
+			except:
+				kwargs["queryset"] = Jugador.objects.none()
 
 		return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
